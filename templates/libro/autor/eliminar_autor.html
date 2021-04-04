@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span area-hidden="true">&times;</span>
+            </button>
+            <h2 class="modal-title">Desea eliminar el registro {{object}}</h2>
+
+        </div>
+        <form action="{% url 'libro:eliminar_autor' object.id %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" type="submit">Confirmar</button>
+            </div>
+        </form>
+        
+    </div>
+</div>

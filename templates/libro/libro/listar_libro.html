@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% block titulo %}
+  Biblioteca.dev | Lstado de Libros
+{% endblock titulo %}
+
+{% block body %}
+<div>
+  <button type="button" class="btn btn-success" onclick="abrir_modal_creacion('{% url 'libro:crear_libro' %}');">
+    Registar Libro</button>
+  </div>
+  {% if libros %}
+      <div class="card">
+          <div class="card-header">
+              <strong class="card-title">Listado de Libros</strong>
+          </div>
+          <div class="table-stats order-table ov-h">
+              <table class="table">
+                  <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Fecha Publicación</th>
+                        <th>Autor</th>
+                        <th>Opciones</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for libro in libros %}
+                      <tr>
+                        <td>{{ libro.id }}</td>
+                        <td>{{ libro.titulo }}</td>
+                        <td>{{ libro.fecha_publicacion }}</td>
+                        <td>
+                            {% for autor in libro.autor_id.all %}
+                            {{ autor.nombre }}
+                            {% endfor %}</td>
+                        <td>
+                          <button onclick="abrir_modal_edicion('{% url 'libro:editar_libro' libro.id %}')" class="btn btn-primary">Editar</button>
+                          <button onclick="abrir_modal_edicion('{% url 'libro:eliminar_libro' libro.id %}')" class="btn btn-danger">Eliminar</button>
+                        </td>
+
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      {% else %}
+        <h1>No existen autores registrados</h1>
+      {% endif %}
+
+      <div class="modal fade" id="creacion" role="dialog"> </div>
+
+      <div class="modal fade" id="edicion" role="dialog"></div>
+
+      
+      <div class="modal fade" id="eliminacion" role="dialog"></div>
+
+
+      {% block extrajs %}
+      <script type="text/javascript">
+
+      const $ = jQuery.noConflict();
+
+      function abrir_modal_edicion(url){
+        $('#edicion').load(url, function(){
+            $(this).modal('show');
+        })
+      };  
+      
+      function abrir_modal_creacion(url){
+        $('#creacion').load(url, function(){
+            $(this).modal('show');
+        })
+      };
+
+      function abrir_modal_eliminar(url){
+        $('#eliminacion').load(url, function(){
+            $(this).modal('show');
+        })
+      };
+      </script>
+        
+      {% endblock extrajs %}
+{% endblock body %}
