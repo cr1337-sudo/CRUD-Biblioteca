@@ -42,6 +42,15 @@
                            <li><i class="fa fa-table"></i><a href="{% url 'libro:listar_libro' %}">Listado de Libros</a></li>
                        </ul>
                     </li>
+                    
+                    {% if request.user.is_staff %}
+                    <li class="menu-item">
+                        <a href="{% url 'listar_usuarios' %}"><i class="menu-icon fa fa-users"></i>Usuarios</a>
+                    </li>
+                    {% endif %}
+                        
+                    
+                    
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

@@ -72,6 +72,7 @@ class FormularioUsuario(forms.ModelForm):
         }
     # Validación de la contraseña,validad que ambas contraseñas ingresadas sean iguales
     # Esto antes de ser encriptadas y guardadas en la base de datos
+    # Cleaned data es el date ya validado
     # Excepción: ValidationError. Cuando las claves no son iguales lanza un mensaje de error
 
     def clean_password2(self):
@@ -82,9 +83,12 @@ class FormularioUsuario(forms.ModelForm):
             raise forms.ValidationError("Contraseñas no coinciden")
         return password2
 
-    #Edita el método save para que se guarde la clave luego de ser validada
+    # Edita el método save para que se guarde la clave luego de ser validada
+    # SI commit = True se sigue con el flujo de trabajo normal preestablecido en le metodo save
+    # Si commit = False guardal a instancia, la informacion que se pretende registrar
     def save(self, commit=True):
         user = super().save(commit=False)
+        # Se usa set_password porque es el metodo que encripta las contraseñas, y usa pwd1 como contraseña
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
